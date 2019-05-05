@@ -13,7 +13,7 @@ from tensorflow.keras.layers import (Dense, Input, Dropout, Convolution1D,
 MaxPool1D, GlobalMaxPool1D, GlobalAveragePooling1D, concatenate)
 from tensorflow.keras.applications.xception import Xception
 import gc
-gc.collect()
+
 
 def build_1d_model(input_length, nclass):
     
@@ -58,8 +58,8 @@ def build_1d_model(input_length, nclass):
     return model
 
 # train model
-def train_audio(input_length, train_files, train_labels,
-            val_files, val_labels, nclass = 10, epochs = 20, batch_size=32):
+def train_audio( train_files, train_labels,
+            val_files, val_labels, input_length = 64000, nclass = 10, epochs = 20, batch_size=32):
 
     model = build_1d_model(input_length=input_length, nclass=n_class)
     model.fit_generator(generator(train_files, train_labels), steps_per_epoch=len(train_files)//batch_size, epochs=epochs,

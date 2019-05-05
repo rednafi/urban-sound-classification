@@ -42,9 +42,6 @@ from tensorflow.keras.layers import (Dense, Input, Dropout, Convolution1D,
 MaxPool2D, GlobalMaxPool1D, GlobalAveragePooling1D, concatenate)
 from tensorflow.keras.applications.xception import Xception
 
-sample_rate = 16000
-time = 4
-input_length = sample_rate*time
 
 def input_to_target(base_data_path = 'data/'):
 
@@ -80,8 +77,8 @@ def audio_normalization(data):
     data = (data-min_data)/(max_data-min_data+0.0001)
     return data-0.5
 
-def mel_spectrum_db(audio, sample_rate=sample_rate, window_size=20, #log_specgram
-                 step_size=10, eps=1e-10, n_mels = 500):
+def mel_spectrum_db(audio, sample_rate=16000, window_size=20, #log_specgram
+                 step_size=10, eps=1e-10, n_mels = 320):
 
     mel_spec = librosa.feature.melspectrogram(y=audio, sr=sample_rate, n_mels= n_mels)
     mel_db = (librosa.power_to_db(mel_spec, ref=np.max) + 40)/40
@@ -89,7 +86,7 @@ def mel_spectrum_db(audio, sample_rate=sample_rate, window_size=20, #log_specgra
     return mel_db.T
 
 
-def stretch(data, input_length=input_length, rate=1):
+def stretch(data, input_length=64000, rate=1):
     data = librosa.effects.time_stretch(data, rate)
     if len(data) > input_length:
         data = data[:input_length]
@@ -99,7 +96,7 @@ def stretch(data, input_length=input_length, rate=1):
     return data
 
 
-def pitch_shift(data, input_length=input_length, n_steps=3.0):
+def pitch_shift(data, input_length=64000, n_steps=3.0):
     data = librosa.effects.pitch_shift(data, sr=input_length, n_steps=n_steps)
     if len(data) > input_length:
         data = data[:input_length]
@@ -139,8 +136,7 @@ def augment(data):
         data = pitch_shift(data, n_steps=pitch_shift_val)
     return data
 
-def load_audio_file(file_path, input_length=input_length,
-                    mel_frequency=False, augmentation = False):
+def load_audio_file(file_path, input_length=64000):
     
     data, sr = librosa.core.load(file_path, sr=16000) 
     if len(data)>input_length:
@@ -160,12 +156,9 @@ def load_audio_file(file_path, input_length=input_length,
         
         data = np.pad(data, (offset, input_length - len(data) - offset), "constant")
     
-    if augmentation & mel_frequency:
         data = augment(data)
         data = mel_spectrum_db(data)
-        
-    else:
-        data = audio_normalization(data)
+            
         
     return data
 
@@ -173,20 +166,15 @@ def load_audio_file(file_path, input_length=input_length,
 def chunker(seq, size):
     return (seq[pos:pos + size] for pos in range(0, len(seq), size))
 
-def generator(file_paths, target_labels, batch_size=32, dim=1):
+def generator(file_paths, target_labels, batch_size=32):
     while True:
         file_paths, target_labels = shuffle(file_paths, target_labels)
         
         for batch_files, batch_labels in zip(chunker(file_paths, size=batch_size),
                                              chunker(target_labels, size= batch_size)):
 
-            if dim ==1:
-                batch_data = [load_audio_file(fpath) for fpath in batch_files]
-                batch_data = np.array(batch_data)[:,:,np.newaxis]
-            elif dim ==2:
-                batch_data = [load_audio_file(fpath) for fpath in batch_files]
-                batch_data = np.array(batch_data)[:,:,np.newaxis]
-            else:
-                print('dimension error')
+            batch_data = [load_audio_file(fpath) for fpath in batch_files]
+            batch_data = np.array(batch_data)[:,:,:,np.newaxis]
+
             
             yield batch_data, batch_labels
