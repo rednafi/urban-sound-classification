@@ -26,22 +26,9 @@ from PIL import Image
 from sklearn.utils import shuffle
 from sklearn.model_selection import train_test_split
 
-# plotly libraries
-import plotly.graph_objs as go
-from plotly import tools
-from plotly.offline import download_plotlyjs, init_notebook_mode, plot, iplot
-init_notebook_mode(connected=True)
-import plotly_express as px
-
-
-# keras components for constructing the model
-import tensorflow as tf
-from tensorflow.keras import optimizers, losses, activations, models
-from tensorflow.keras.callbacks import ModelCheckpoint, EarlyStopping, LearningRateScheduler
-from tensorflow.keras.layers import (Dense, Input, Dropout, Convolution1D, 
-MaxPool2D, GlobalMaxPool1D, GlobalAveragePooling1D, concatenate)
-from tensorflow.keras.applications.xception import Xception
-
+input_length = 16000*4
+batch_size = 16
+n_mels = 320
 
 def input_to_target(base_data_path = 'data/'):
 
@@ -77,8 +64,13 @@ def audio_normalization(data):
     data = (data-min_data)/(max_data-min_data+0.0001)
     return data-0.5
 
+input_length = 16000*4
+
+batch_size = 32
+n_mels = 320
+
 def mel_spectrum_db(audio, sample_rate=16000, window_size=20, #log_specgram
-                 step_size=10, eps=1e-10, n_mels = 320):
+                 step_size=10, eps=1e-10):
 
     mel_spec = librosa.feature.melspectrogram(y=audio, sr=sample_rate, n_mels= n_mels)
     mel_db = (librosa.power_to_db(mel_spec, ref=np.max) + 40)/40
@@ -86,19 +78,20 @@ def mel_spectrum_db(audio, sample_rate=16000, window_size=20, #log_specgram
     return mel_db.T
 
 
-def stretch(data, input_length=64000, rate=1):
+def stretch(data, rate=1):
+
     data = librosa.effects.time_stretch(data, rate)
-    if len(data) > input_length:
+    if len(data)>input_length:
         data = data[:input_length]
     else:
         data = np.pad(data, (0, max(0, input_length - len(data))), "constant")
 
     return data
 
+def pitch_shift(data, n_steps=3.0):
 
-def pitch_shift(data, input_length=64000, n_steps=3.0):
     data = librosa.effects.pitch_shift(data, sr=input_length, n_steps=n_steps)
-    if len(data) > input_length:
+    if len(data)>input_length:
         data = data[:input_length]
     else:
         data = np.pad(data, (0, max(0, input_length - len(data))), "constant")
@@ -123,50 +116,50 @@ def white(N, state=None):
     state = np.random.RandomState() if state is None else state
     return state.randn(N)
 
-
 def augment(data):
-    if np.random.uniform(0, 1) > 0.90:
+    if np.random.uniform(0, 1)>0.95:
         wnoise = loguniform()
-        data = data + wnoise * white(len(data))
-    if np.random.uniform(0, 1) > 0.90:
+        data = data + wnoise*white(len(data))
+    if np.random.uniform(0, 1)>0.95:
         stretch_val = np.random.uniform(0.9, 1.1)
         data = stretch(data, stretch_val)
-    if np.random.uniform(0, 1) > 0.90:
+    if np.random.uniform(0, 1)>0.95:
         pitch_shift_val = np.random.uniform(-6, 6)
         data = pitch_shift(data, n_steps=pitch_shift_val)
     return data
 
-def load_audio_file(file_path, input_length=64000):
-    
-    data, sr = librosa.core.load(file_path, sr=16000) 
+def load_audio_file(file_path, input_length=input_length):
+    data = librosa.core.load(file_path, sr=16000)[0] #, sr=16000
     if len(data)>input_length:
         
-        max_offset = len(data)-input_length
-        offset = np.random.randint(max_offset)
-        data = data[offset:(input_length+offset)]
-              
-    else:
         
+        max_offset = len(data)-input_length
+        
+        offset = np.random.randint(max_offset)
+        
+        data = data[offset:(input_length+offset)]
+        
+        
+    else:
         if input_length > len(data):
             max_offset = input_length - len(data)
+
             offset = np.random.randint(max_offset)
-            
         else:
             offset = 0
         
-        data = np.pad(data, (offset, input_length - len(data) - offset), "constant")
-    
-        data = augment(data)
-        data = mel_spectrum_db(data)
-            
         
-    return data
+        data = np.pad(data, (offset, input_length - len(data) - offset), "constant")
+        
+    data = augment(data)
+    data = mel_spectrum_db(data)
 
+    return data
 
 def chunker(seq, size):
     return (seq[pos:pos + size] for pos in range(0, len(seq), size))
 
-def generator(file_paths, target_labels, batch_size=32):
+def generator(file_paths, target_labels, batch_size=16):
     while True:
         file_paths, target_labels = shuffle(file_paths, target_labels)
         

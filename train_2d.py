@@ -13,11 +13,11 @@ from tensorflow.keras.layers import (Dense, Input, Dropout, Convolution2D,
 MaxPool2D, GlobalMaxPool2D, GlobalAveragePooling2D, concatenate)
 from tensorflow.keras.applications.xception import Xception
 
-def build_2d_model(input_shape = (157, 500, 1), nclass = 10):
+def build_2d_model(input_shape = (126, 320, 1), nclass = 10):
        
     input_wave = Input(shape=input_shape)
 
-    xception = Xception(input_shape=(157, 500, 1), weights=None, include_top=False)
+    xception = Xception(input_shape=(126, 320, 1), weights=None, include_top=False)
 
     x = xception(input_wave)
     x = GlobalMaxPool2D()(x)
@@ -36,7 +36,7 @@ def build_2d_model(input_shape = (157, 500, 1), nclass = 10):
 def train_audio(input_shape, train_files, train_labels,
                 val_files, val_labels, nclass = 10, epochs = 20):
     
-    model = build_2d_model(input_shape=(157,500,1), nclass=n_class)
+    model = build_2d_model(input_shape=(126,320,1), nclass=n_class)
     
     model.fit_generator(generator(train_files, train_labels), steps_per_epoch=len(train_files)//batch_size, epochs=epochs,
 
@@ -54,7 +54,7 @@ def train_audio(input_shape, train_files, train_labels,
 sampling_freq = 16000
 duration = 4
 input_length = sampling_freq*duration
-batch_size = 32
+batch_size = 16
 train_file_to_label = input_to_target()
 input_files = train_file_to_label['train_file_paths'].values
 target_labels = train_file_to_label['class_int_encode'].values
