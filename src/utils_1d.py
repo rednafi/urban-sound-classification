@@ -17,9 +17,9 @@ pd.options.display.max_rows = 5000
 from sklearn.preprocessing import LabelEncoder
 
 # librosa for audion feature extraction
-import librosa
+import librosa 
 import gc
-import pickle
+import pickle 
 import random
 from multiprocessing import Pool
 from PIL import Image
@@ -35,7 +35,7 @@ import plotly_express as px
 
 
 # keras components for constructing the model
-import tensorflow as tf
+import tensorflow as tf 
 from tensorflow.keras import optimizers, losses, activations, models
 from tensorflow.keras.callbacks import ModelCheckpoint, EarlyStopping, LearningRateScheduler
 from tensorflow.keras.layers import (Dense, Input, Dropout, Convolution1D, 
