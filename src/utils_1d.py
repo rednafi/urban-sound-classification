@@ -43,7 +43,6 @@ MaxPool2D, GlobalMaxPool1D, GlobalAveragePooling1D, concatenate)
 from tensorflow.keras.applications.xception import Xception
 
 
-
 def input_to_target(base_data_path = './data/'):
 
     # audio files and their corresponding labels

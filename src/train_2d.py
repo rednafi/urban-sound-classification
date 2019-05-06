@@ -13,7 +13,12 @@ from tensorflow.keras.layers import (Dense, Input, Dropout, Convolution2D,
 MaxPool2D, GlobalMaxPool2D, GlobalAveragePooling2D, concatenate)
 from tensorflow.keras.applications.xception import Xception
 
-def build_2d_model(input_shape = (126, 320, 1), nclass = 10):
+input_shape = [126, 320, 1]
+nclass = 10
+epochs = 25
+batch_size = 16
+
+def build_2d_model(input_shape = input_shape, nclass = nclass):
        
     input_wave = Input(shape=input_shape)
 
@@ -34,9 +39,9 @@ def build_2d_model(input_shape = (126, 320, 1), nclass = 10):
     return model
 
 def train_audio(train_files, train_labels,
-                val_files, val_labels, input_shape=(126,320,1), nclass = 10, batch_size= 16, epochs = 20):
+                val_files, val_labels, input_shape = input_shape, nclass = nclass, epochs = epochs):
     
-    model = build_2d_model(input_shape=input_shape, nclass=n_class)
+    model = build_2d_model(input_shape=input_shape, nclass=nclass)
     
     model.fit_generator(generator(train_files, train_labels), steps_per_epoch=len(train_files)//batch_size, epochs=epochs,
 
@@ -48,13 +53,26 @@ def train_audio(train_files, train_labels,
                                    EarlyStopping(patience=5, monitor="val_acc")])
 
 
-    model.save("./models/model_2d.h5")
+    model.save_weights("./models/model_2d.h5")
+    plt.plot(history.history['acc'])
+    plt.plot(history.history['val_acc'])
+    plt.title('model accuracy')
+    plt.ylabel('accuracy')
+    plt.xlabel('epoch')
+    plt.legend(['train', 'test'], loc='upper left')
+    plt.savefig("./results/'acc_model_2d.png", dpi=300)
+    plt.show()
+    # summarize history for loss
+    plt.plot(history.history['loss'])
+    plt.plot(history.history['val_loss'])
+    plt.title('model loss')
+    plt.ylabel('loss')
+    plt.xlabel('epoch')
+    plt.savefig("./results/'loss_model_2d.png", dpi=300)
+    plt.legend(['train', 'test'], loc='upper left')
+    plt.show()
 
 
-sampling_freq = 16000
-duration = 4
-input_length = sampling_freq*duration
-batch_size = 16
 train_file_to_label = input_to_target()
 input_files = train_file_to_label['train_file_paths'].values
 target_labels = train_file_to_label['class_int_encode'].values
@@ -62,5 +80,5 @@ train_files, val_files, train_labels, val_labels = train_test_split(input_files,
                                                                    test_size=0.15, random_state=42)
 n_class= len(train_file_to_label['Class'].unique())
 
-train_audio(input_length, train_files, train_labels,
-                val_files, val_labels, nclass = 10, epochs = 1)
+train_audio(train_files, train_labels,
+                val_files, val_labels, input_shape= input_shape, nclass = nclass, epochs = epochs)

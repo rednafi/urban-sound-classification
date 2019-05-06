@@ -3,6 +3,7 @@ from utils_1d import input_to_target, load_audio_file, generator
 # 
 import numpy as np 
 import pandas as pd 
+import matplotlib.pyplot as plt 
 from sklearn.model_selection import train_test_split
 
 # keras components for constructing the model
@@ -14,7 +15,10 @@ MaxPool1D, GlobalMaxPool1D, GlobalAveragePooling1D, concatenate)
 from tensorflow.keras.applications.xception import Xception
 import gc
 
-
+input_length = 16000*4
+nclass = 10
+epochs = 20
+batch_size = 32
 
 def build_1d_model(input_length, nclass):
     
@@ -60,10 +64,10 @@ def build_1d_model(input_length, nclass):
 
 # train model
 def train_audio(train_files, train_labels,
-            val_files, val_labels, input_length = 64000, nclass = 10, epochs = 20, batch_size=32):
+            val_files, val_labels, input_length = input_length, nclass = 10, epochs = epochs, batch_size=batch_size):
 
     model = build_1d_model(input_length=input_length, nclass=n_class)
-    model.fit_generator(generator(train_files, train_labels), steps_per_epoch=len(train_files)//batch_size, epochs=epochs,
+    history = model.fit_generator(generator(train_files, train_labels), steps_per_epoch=len(train_files)//batch_size, epochs=epochs,
 
                         validation_data=generator(val_files, val_labels), 
                         validation_steps=len(val_files)//batch_size,
@@ -71,14 +75,27 @@ def train_audio(train_files, train_labels,
                         callbacks=[ModelCheckpoint("./models/model_1d.h5",
                                                     monitor="val_acc", save_best_only=True),
                                     EarlyStopping(patience=5, monitor="val_acc")])
-
-
+    
     model.save("./models/model_1d.h5")
+    plt.plot(history.history['acc'])
+    plt.plot(history.history['val_acc'])
+    plt.title('model accuracy')
+    plt.ylabel('accuracy')
+    plt.xlabel('epoch')
+    plt.legend(['train', 'test'], loc='upper left')
+    plt.savefig("./results/'acc_model_1d.png", dpi=300)
+    plt.show()
+    # summarize history for loss
+    plt.plot(history.history['loss'])
+    plt.plot(history.history['val_loss'])
+    plt.title('model loss')
+    plt.ylabel('loss')
+    plt.xlabel('epoch')
+    plt.savefig("./results/'loss_model_1d.png", dpi=300)
+    plt.legend(['train', 'test'], loc='upper left')
+    plt.show()
+    
 
-sampling_freq = 16000
-duration = 4
-input_length = sampling_freq*duration
-batch_size = 32
 train_file_to_label = input_to_target()
 input_files = train_file_to_label['train_file_paths'].values
 target_labels = train_file_to_label['class_int_encode'].values
@@ -87,4 +104,6 @@ train_files, val_files, train_labels, val_labels = train_test_split(input_files,
 n_class= len(train_file_to_label['Class'].unique())
 
 train_audio(train_files, train_labels,
-                val_files, val_labels, input_length = input_length, nclass = 10, epochs = 1)
+                val_files, val_labels, input_length = input_length, nclass = nclass, epochs = epochs)
+
+
