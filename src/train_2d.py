@@ -3,6 +3,7 @@ from utils_2d import input_to_target, audio_normalization, load_audio_file, gene
 # 
 import numpy as np 
 import pandas as pd 
+import matplotlib.pyplot as plt 
 from sklearn.model_selection import train_test_split
 
 # keras components for constructing the model
@@ -15,7 +16,7 @@ from tensorflow.keras.applications.xception import Xception
 
 input_shape = [126, 320, 1]
 nclass = 10
-epochs = 25
+epochs = 1
 batch_size = 16
 
 def build_2d_model(input_shape = input_shape, nclass = nclass):
@@ -43,7 +44,7 @@ def train_audio(train_files, train_labels,
     
     model = build_2d_model(input_shape=input_shape, nclass=nclass)
     
-    model.fit_generator(generator(train_files, train_labels), steps_per_epoch=len(train_files)//batch_size, epochs=epochs,
+    history = model.fit_generator(generator(train_files, train_labels), steps_per_epoch=len(train_files)//batch_size, epochs=epochs,
 
                         validation_data=generator(val_files, val_labels), 
                         validation_steps=len(val_files)//batch_size,
