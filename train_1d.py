@@ -1,5 +1,5 @@
 # importing the utility functions
-from utils_2d import input_to_target, load_audio_file, generator
+from utils_1d import input_to_target, load_audio_file, generator
 # 
 import numpy as np 
 import pandas as pd 
@@ -13,6 +13,7 @@ from tensorflow.keras.layers import (Dense, Input, Dropout, Convolution1D,
 MaxPool1D, GlobalMaxPool1D, GlobalAveragePooling1D, concatenate)
 from tensorflow.keras.applications.xception import Xception
 import gc
+
 
 
 def build_1d_model(input_length, nclass):
@@ -58,7 +59,7 @@ def build_1d_model(input_length, nclass):
     return model
 
 # train model
-def train_audio( train_files, train_labels,
+def train_audio(train_files, train_labels,
             val_files, val_labels, input_length = 64000, nclass = 10, epochs = 20, batch_size=32):
 
     model = build_1d_model(input_length=input_length, nclass=n_class)
@@ -67,12 +68,12 @@ def train_audio( train_files, train_labels,
                         validation_data=generator(val_files, val_labels), 
                         validation_steps=len(val_files)//batch_size,
                         use_multiprocessing=True, max_queue_size=1,
-                        callbacks=[ModelCheckpoint("models/sound_classification_1d.h5",
+                        callbacks=[ModelCheckpoint("models/model_1d.h5",
                                                     monitor="val_acc", save_best_only=True),
                                     EarlyStopping(patience=5, monitor="val_acc")])
 
 
-    model.save_weights("models/sound_classification_1d.h5")
+    model.save("models/model_1d.h5")
 
 sampling_freq = 16000
 duration = 4
@@ -85,5 +86,5 @@ train_files, val_files, train_labels, val_labels = train_test_split(input_files,
                                                                    test_size=0.15, random_state=42)
 n_class= len(train_file_to_label['Class'].unique())
 
-train_audio(input_length, train_files, train_labels,
-                val_files, val_labels, nclass = 10, epochs = 20)
+train_audio(train_files, train_labels,
+                val_files, val_labels, input_length = input_length, nclass = 10, epochs = 1)
