@@ -95,7 +95,7 @@ def train_audio(train_files, train_labels,
     plt.ylabel('accuracy')
     plt.xlabel('epoch')
     plt.legend(['train', 'test'], loc='upper left')
-    plt.savefig("./results/'acc_model_1d.png", dpi=300)
+    plt.savefig("./results/acc_model_1d.png", dpi=300)
     plt.show()
     # summarize history for loss
     plt.plot(history.history['loss'])
@@ -103,7 +103,7 @@ def train_audio(train_files, train_labels,
     plt.title('model loss')
     plt.ylabel('loss')
     plt.xlabel('epoch')
-    plt.savefig("./results/'loss_model_1d.png", dpi=300)
+    plt.savefig("./results/loss_model_1d.png", dpi=300)
     plt.legend(['train', 'test'], loc='upper left')
     plt.show()
 

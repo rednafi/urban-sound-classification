@@ -31,6 +31,8 @@ batch_size = 16
 n_mels = 320
 
 
+
+
 def input_to_target(base_data_path='./data/'):
 
     # audio files and their corresponding labels
@@ -66,11 +68,6 @@ def audio_normalization(data):
     data = (data-min_data)/(max_data-min_data+0.0001)
     return data-0.5
 
-
-input_length = 16000*4
-
-batch_size = 32
-n_mels = 320
 
 
 def mel_spectrum_db(audio, sample_rate=16000, window_size=20,  # log_specgram

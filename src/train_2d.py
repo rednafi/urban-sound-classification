@@ -16,8 +16,8 @@ from tensorflow.keras.applications.xception import Xception
 
 input_shape = [126, 320, 1]
 nclass = 10
-epochs = 1
-batch_size = 16
+epochs = 25
+batch_size = 32
 
 
 def build_2d_model(input_shape=input_shape, nclass=nclass):

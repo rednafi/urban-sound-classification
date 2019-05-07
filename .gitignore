@@ -1,5 +1,5 @@
 *.jpg
-*.png
+#*.png
 ! test.png
 *.wav
 
