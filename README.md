@@ -17,6 +17,9 @@ The Urban Sound Classification dataset contains 8732 labeled sound excerpts (<=4
 The attributes of data are mapped as follows: 
 * **ID** – Unique ID of sound excerpt and **Class** – type of sound
 
+![air_conditioner](https://user-images.githubusercontent.com/30027932/57352067-fbc39a00-7185-11e9-91f5-b18e359126a6.png)
+![air_conditioner](https://user-images.githubusercontent.com/30027932/57352070-febe8a80-7185-11e9-8806-44ccfb79d986.png)
+
 ## Project Organization
 ### Folder Structure
 ```
