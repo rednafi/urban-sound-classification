@@ -17,7 +17,7 @@ import gc
 
 input_length = 16000*4
 nclass = 10
-epochs = 20
+epochs = 25
 batch_size = 32
 
 
