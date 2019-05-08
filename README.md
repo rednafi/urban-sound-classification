@@ -91,7 +91,8 @@ through stacks of 2D convolution layers for additional feature pulling. Dense la
 
 ### Result 
 
-We achieved 49% and 89% validation accuracy in the two approaches respectively. 
+We achieved  89% validation accuracy in the second approach.
+[xception_val_acc](https://github.com/rednafi/urban-sound-classification/blob/master/results/acc_model_2d.png)
 
 ### Requirements
 ```
