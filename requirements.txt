@@ -1,0 +1,11 @@
+tqdm==4.31.1
+numpy==1.16.2
+matplotlib==3.0.3
+tensorflow_gpu==2.0.0a0
+pandas==0.24.2
+plotly==3.8.1
+librosa==0.6.3
+plotly_express==0.1.7
+Pillow==6.0.0
+scikit_learn==0.20.3
+
