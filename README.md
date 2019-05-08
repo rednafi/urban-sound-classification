@@ -77,12 +77,21 @@ The attributes of data are mapped as follows:
 ```
 
 ### Workflow 
-In order to categorize the sound clips, we have taken two different approaches. 
+
+**Exploratory Data Analysis:** 
+* Frequency normalization and plotting amplitude vs time
+* Mel spectogram plotting 
+
+**Audio Tagging:**
 
 * Normalizing the audio clips and passing them through stacks of 1D convolution layers for feature extraction. Then the usual dense layer stacks were used to do the final categorization.
 
 * Extracting features in the form of [mel-spectogram](https://en.wikipedia.org/wiki/Mel-frequency_cepstrum) and passing them 
 through stacks of 2D convolution layers for additional feature pulling. Dense layer stack does the final classification. We used Xception as convolution model.
+
+### Result 
+
+We achieved 49% and 89% validation accuracy in the two approaches respectively. 
 
 ### Requirements
 ```
