@@ -75,3 +75,16 @@ The attributes of data are mapped as follows:
 ├── requirements.txt
     
 ```
+
+### Workflow 
+In order to categorize the sound clips, we have taken two different approaches. 
+
+* Normalizing the audio clips and passing them through stacks of 1D convolution layers for feature extraction. Then the usual dense layer stacks were used to do the final categorization.
+
+* Extracting features in the form of [mel-spectogram](https://en.wikipedia.org/wiki/Mel-frequency_cepstrum) and passing them 
+through stacks of 2D convolution layers for additional feature pulling. Dense layer stack does the final classification. We used Xception as convolution model.
+
+### Requirements
+```
+pip install -r requirements.txt
+```
