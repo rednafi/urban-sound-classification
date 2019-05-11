@@ -1,4 +1,11 @@
 # basic library imports
+import glob
+import os
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+from numpy import random
+from tqdm import tqdm
 from sklearn.model_selection import train_test_split
 from sklearn.utils import shuffle
 from PIL import Image
@@ -8,13 +15,6 @@ import pickle
 import gc
 import librosa
 from sklearn.preprocessing import LabelEncoder
-import glob
-import os
-import numpy as np
-import pandas as pd
-import matplotlib.pyplot as plt
-from numpy import random
-from tqdm import tqdm
 
 # pandas setting
 pd.set_option('display.max_columns', None)
@@ -22,9 +22,7 @@ pd.set_option('display.expand_frame_repr', False)
 pd.set_option('max_colwidth', -1)
 pd.options.display.max_rows = 5000
 
-# encoding the classes
 
-# librosa for audion feature extraction
 
 sample_rate = 16000
 input_length = 16000*4
