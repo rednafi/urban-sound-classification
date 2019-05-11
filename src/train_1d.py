@@ -71,8 +71,6 @@ def build_1d_model(input_length, nclass):
     return model
 
 # train model
-
-
 def train_audio(train_files, train_labels,
                 val_files, val_labels, input_length=input_length, nclass=nclass, epochs=epochs, batch_size=batch_size):
 
