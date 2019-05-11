@@ -23,13 +23,10 @@ pd.set_option('max_colwidth', -1)
 pd.options.display.max_rows = 5000
 
 
-
 sample_rate = 16000
 input_length = 16000*4
 batch_size = 16
 n_mels = 320
-
-
 
 
 def input_to_target(base_data_path='./data/'):
