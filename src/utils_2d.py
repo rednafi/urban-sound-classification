@@ -26,6 +26,7 @@ pd.options.display.max_rows = 5000
 
 # librosa for audion feature extraction
 
+sample_rate = 16000
 input_length = 16000*4
 batch_size = 16
 n_mels = 320
@@ -70,7 +71,7 @@ def audio_normalization(data):
 
 
 
-def mel_spectrum_db(audio, sample_rate=16000, window_size=20,  # log_specgram
+def mel_spectrum_db(audio, sample_rate=sample_rate, window_size=20,  # log_specgram
                     step_size=10, eps=1e-10):
 
     mel_spec = librosa.feature.melspectrogram(
@@ -93,7 +94,7 @@ def stretch(data, rate=1):
 
 def pitch_shift(data, n_steps=3.0):
 
-    data = librosa.effects.pitch_shift(data, sr=input_length, n_steps=n_steps)
+    data = librosa.effects.pitch_shift(data, sr=sample_rate, n_steps=n_steps)
     if len(data) > input_length:
         data = data[:input_length]
     else:
@@ -134,7 +135,7 @@ def augment(data):
 
 
 def load_audio_file(file_path, input_length=input_length):
-    data = librosa.core.load(file_path, sr=16000)[0]  # , sr=16000
+    data = librosa.core.load(file_path, sr=sample_rate)[0]  # , sr=16000
     if len(data) > input_length:
 
         max_offset = len(data)-input_length
@@ -164,7 +165,7 @@ def chunker(seq, size):
     return (seq[pos:pos + size] for pos in range(0, len(seq), size))
 
 
-def generator(file_paths, target_labels, batch_size=16):
+def generator(file_paths, target_labels, batch_size=batch_size):
     while True:
         file_paths, target_labels = shuffle(file_paths, target_labels)
 

@@ -18,7 +18,7 @@ import gc
 input_length = 16000*4
 nclass = 10
 epochs = 25
-batch_size = 32
+batch_size = 16
 
 
 def build_1d_model(input_length, nclass):
@@ -74,9 +74,9 @@ def build_1d_model(input_length, nclass):
 
 
 def train_audio(train_files, train_labels,
-                val_files, val_labels, input_length=input_length, nclass=10, epochs=epochs, batch_size=batch_size):
+                val_files, val_labels, input_length=input_length, nclass=nclass, epochs=epochs, batch_size=batch_size):
 
-    model = build_1d_model(input_length=input_length, nclass=n_class)
+    model = build_1d_model(input_length=input_length, nclass=nclass)
     history = model.fit_generator(
         generator(train_files, train_labels),
         steps_per_epoch=len(train_files)//batch_size,
