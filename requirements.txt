@@ -1,5 +1,5 @@
 tqdm==4.32.1
-numpy==1.16.2
+numpy==1.16.4
 matplotlib==3.0.3
 tensorflow_gpu==2.0.0a0
 pandas==0.24.2
