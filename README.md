@@ -30,58 +30,56 @@ The attributes of data are mapped as follows:
 
 ## Project Organization
 ### Folder Structure
+
 ```
 .
-├── data/
-   ├── train/
-      ├── Train/
-         ├── 1.wav
-         ├── 2.wav
-         .............
-         
-   ├── test/
-      ├── Test/
-         ├── 5.wav
-         ├── 7.wav
-         .............
-         
-    ├── train.csv
-    ├── test.csv
-            
-├── models/
-   ├── model_1d.h5
-   ├── model_2d.h5
-    
-├── notebooks/
-    ├── eda_plots/
-       ├── amplitude_vs_time/
-          ├── air_conditioner.svg
-          ├── car_horn.svg
-          ............. 
-    
-       ├── mel_spectrum/
-          ├── air_conditioner.svg
-          ├── car_horn.svg
-          .............      
-     
-    ├── Exploratory Data Analysis.ipynb
-
-├── results/
-    ├── pred_1d.csv
-    ├── pred_2d.csv
-
-├── src/
-    ├── utils_1d.py
-    ├── utils_2d.py
-    ├── train_1d.py
-    ├── train_2d.py
+├── data
+│   ├── img
+│   │   ├── audio-features.png
+│   │   ├── sound.png
+│   │   └── time_freq.png
+│   ├── test
+│   │   └── Test
+|   |       ├── 1.wav
+|   |       ├── 2.wav
+|   |       ├── .............    
+│   ├── test.csv
+│   ├── train
+│   │   └── Train
+|   |       ├── 1.wav
+|   |       ├── 2.wav
+|   |       ├── ............ 
+|   | 
+│   └── train.csv
+├── LICENSE
+├── notebooks
+│   ├── eda_plots
+│   │   ├── amplitude_vs_time
+│   │   │   ├── air_conditioner.svg
+│   │   │   ├── car_horn.svg
+|   |   |   ├── ............ 
+│   │   └── mel_spectrum
+│   │       ├── air_conditioner.png
+│   │       ├── car_horn.png
+|   |       ├── ............
+│   └── Exploratory Data Analysis.ipynb
+├── README.md
+├── requirements.txt
+├── results
+│   ├── acc_model_1d.png
+│   ├── acc_model_2d.png
+│   ├── loss_model_1d.png
+│   ├── loss_model_2d.png
+│   ├── pred_1d.csv
+│   └── pred_2d.csv
+└── src
     ├── test_1d.py
     ├── test_2d.py
+    ├── train_1d.py
+    ├── train_2d.py
+    ├── utils_1d.py
+    └── utils_2d.py
 
-
-├── LICENSE
-├── requirements.txt
-    
 ```
 
 ### Workflow 
