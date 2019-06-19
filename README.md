@@ -3,7 +3,7 @@
 
 [![Dataset](https://img.shields.io/badge/Dataset-Urban8k-red.svg)](https://www.kaggle.com/pavansanagapati/urban-sound-classification/downloads/urban-sound-classification.zip/2)
 [![made-with-python](https://img.shields.io/badge/Made%20with-Python-1f425f.svg)](https://www.python.org/)
-[![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)](https://lbesson.mit-license.org/)
+[![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/rednafi/urban-sound-classification/blob/master/LICENSE)
 ![stability-experimental](https://img.shields.io/badge/stability-experimental-orange.svg)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/python/black)
 
