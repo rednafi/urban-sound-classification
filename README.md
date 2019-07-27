@@ -85,8 +85,8 @@ The attributes of data are mapped as follows:
 ### Workflow 
 
 **Exploratory Data Analysis:** 
-* Frequency normalization and plotting amplitude vs time
-* Mel spectogram plotting 
+* Frequency normalization and amplitude vs time plot
+* Mel spectogram plot 
 
 **Audio Tagging:**
 
