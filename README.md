@@ -7,7 +7,7 @@
 ![stability-experimental](https://img.shields.io/badge/stability-experimental-orange.svg)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/python/black)
 
-Urban sound source tagging from an aggregation of four second noisy audio clips via 1D and 2D CNN (Xception)
+Urban sound source tagging from four second noisy audio clips via 1D and 2D CNN (Xception)
 
 ## Dataset Description
 The Urban Sound Classification dataset contains 8732 labeled sound excerpts (<=4s) of urban sounds from 10 classes,namely: 
