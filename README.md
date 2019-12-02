@@ -1,9 +1,9 @@
 <div align="center">
-    
+
 # Urban Sound Classification
 Urban sound source tagging from an aggregation of four second noisy audio clips via 1D and 2D CNN (Xception)
 
-[![Dataset](https://img.shields.io/badge/Dataset-Urban8k-red.svg)](https://www.kaggle.com/pavansanagapati/urban-sound-classification/downloads/urban-sound-classification.zip/2)
+[![Dataset](https://img.shields.io/badge/Dataset-Urban8k-red.svg)](https://urbansounddataset.weebly.com/urbansound8k.html)
 [![made-with-python](https://img.shields.io/badge/Made%20with-Python-1f425f.svg)](https://www.python.org/)
 [![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/rednafi/urban-sound-classification/blob/master/LICENSE)
 ![stability-experimental](https://img.shields.io/badge/stability-experimental-orange.svg)
@@ -12,19 +12,19 @@ Urban sound source tagging from an aggregation of four second noisy audio clips 
 </div>
 
 ## Dataset Description
-The Urban Sound Classification dataset contains 8732 labeled sound excerpts (<=4s) of urban sounds from 10 classes,namely: 
+The Urban Sound Classification dataset contains 8732 labeled sound excerpts (<=4s) of urban sounds from 10 classes,namely:
 
-* Air Conditioner 
-* Car Horn 
+* Air Conditioner
+* Car Horn
 * Children Playing
-* Dog bark 
-* Drilling Engine 
+* Dog bark
+* Drilling Engine
 * Idling Gun Shot
 * Jackhammer
-* Siren 
-* Street Music 
+* Siren
+* Street Music
 
-The attributes of data are mapped as follows: 
+The attributes of data are mapped as follows:
 * **ID** – Unique ID of sound excerpt and **Class** – type of sound
 
 ![air_conditioner](https://github.com/rednafi/urban-sound-classification/blob/master/notebooks/eda_plots/amplitude_vs_time/air_conditioner.svg)
@@ -44,14 +44,14 @@ The attributes of data are mapped as follows:
 │   │   └── Test
 |   |       ├── 1.wav
 |   |       ├── 2.wav
-|   |       ├── .............    
+|   |       ├── .............
 │   ├── test.csv
 │   ├── train
 │   │   └── Train
 |   |       ├── 1.wav
 |   |       ├── 2.wav
-|   |       ├── ............ 
-|   | 
+|   |       ├── ............
+|   |
 │   └── train.csv
 ├── LICENSE
 ├── notebooks
@@ -59,7 +59,7 @@ The attributes of data are mapped as follows:
 │   │   ├── amplitude_vs_time
 │   │   │   ├── air_conditioner.svg
 │   │   │   ├── car_horn.svg
-|   |   |   ├── ............ 
+|   |   |   ├── ............
 │   │   └── mel_spectrum
 │   │       ├── air_conditioner.png
 │   │       ├── car_horn.png
@@ -84,20 +84,20 @@ The attributes of data are mapped as follows:
 
 ```
 
-### Workflow 
+### Workflow
 
-**Exploratory Data Analysis:** 
+**Exploratory Data Analysis:**
 * Frequency normalization and amplitude vs time plot
-* Mel spectogram plot 
+* Mel spectogram plot
 
 **Audio Tagging:**
 
 * Normalizing the audio clips and passing them through stacks of 1D convolution layers for feature extraction. Then the usual dense layer stacks were used to do the final categorization.
 
-* Extracting features in the form of [mel-spectogram](https://en.wikipedia.org/wiki/Mel-frequency_cepstrum) and passing them 
+* Extracting features in the form of [mel-spectogram](https://en.wikipedia.org/wiki/Mel-frequency_cepstrum) and passing them
 through stacks of 2D convolution layers for additional feature pulling. Dense layer stack does the final classification. In this case, we trained an Xception model from scratch to achieve better generalization capability.
 
-### Result 
+### Result
 
 We achieved  89% validation accuracy in the second approach.
 ![xception_val_acc](https://github.com/rednafi/urban-sound-classification/blob/master/results/acc_model_2d.png)
