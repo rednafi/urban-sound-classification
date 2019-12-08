@@ -4,7 +4,7 @@ matplotlib==3.1.0
 tensorflow_gpu==2.1.0rc0
 pandas==0.24.2
 plotly==4.1.0
-librosa==0.6.3
+librosa==0.7.1
 plotly_express==0.4.1
 Pillow==6.2.0
 scikit_learn==0.22
