@@ -6,6 +6,6 @@ pandas==0.24.2
 plotly==4.1.0
 librosa==0.6.3
 plotly_express==0.4.1
-Pillow==6.0.0
+Pillow==6.2.0
 scikit_learn==0.22
 
